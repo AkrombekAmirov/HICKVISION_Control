@@ -1,0 +1,32 @@
+[
+    {
+        "name": "Asosiy Bino 1-turniket",
+        "ip": "192.128.1.211",
+        "username": "admin",
+        "password": "abcd2024"
+    },
+    {
+        "name": "Asosiy Bino 2-turniket",
+        "ip": "192.128.1.212",
+        "username": "admin",
+        "password": "abcd2024"
+    },
+    {
+        "name": "Asosiy Bino 3-turniket",
+        "ip": "192.128.1.213",
+        "username": "admin",
+        "password": "abcd2024"
+    },
+    {
+        "name": "Asosiy Bino 4-turniket",
+        "ip": "192.128.1.214",
+        "username": "admin",
+        "password": "abcd2024"
+    },
+    {
+        "name": "Asosiy Bino 5-turniket",
+        "ip": "192.128.1.215",
+        "username": "admin",
+        "password": "abcd2024"
+    }
+]
