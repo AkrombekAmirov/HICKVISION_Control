@@ -1,4 +1,4 @@
-from DatabaseService.core import DatabaseService1, User
+from DatabaseService.core import DatabaseService1, User, Filologiya
 from DataConfig.file_path import get_file_path
 from openpyxl import load_workbook, Workbook
 from LoggingService import LoggerService
@@ -8,7 +8,7 @@ db = DatabaseService1(logger=LoggerService())
 
 
 async def read_excel():
-    file_path = await get_file_path("students.xlsx")
+    file_path = await get_file_path("filologiya.xlsx")
     workbook = load_workbook(file_path)
     sheet = workbook.active
     rows = list(sheet.iter_rows(min_row=2, values_only=True))
@@ -17,7 +17,7 @@ async def read_excel():
             print(row, end="\n")
             print(row[0])
             await db.add(
-                User(username=str(row[1]), password=str(row[2]), external_id=str(row[0]), full_name=str(row[4]) or 'None',
+                Filologiya(username=str(row[1]), password=str(row[2]), external_id=str(row[0]), full_name=str(row[4]) or 'None',
                      gender='Erkak',
                      faculty_id=int(row[6]) or 0, turniket_id=str(row[7]) or 'None', begin_time=(row[8]), end_time=(row[9]),
                      image_url='https://hemis.tdpu.uz/static//pi/b/4/b46a147cd59b84df2eafb2aceee64724.jpg',

@@ -9,7 +9,7 @@ from DataConfig.config import DATABASE_URL
 from contextlib import asynccontextmanager
 from LoggingService import LoggerService
 from sqlalchemy.orm import sessionmaker
-from .models import User
+from .models import User, Filologiya
 from time import time
 
 
