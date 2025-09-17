@@ -1,12 +1,12 @@
-from selenium.common.exceptions import StaleElementReferenceException, TimeoutException
-from selenium.webdriver.support import expected_conditions as EC
-from DataConfig.ImagesFolder import get_images_file_path
-from selenium.webdriver.support.ui import WebDriverWait
-from DatabaseService import DatabaseService1, User
-from selenium.webdriver.common.by import By
-from LoggingService import LoggerService
 from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import StaleElementReferenceException, TimeoutException
 import time, os, pyautogui
+from DatabaseService import DatabaseService1, User
+from LoggingService import LoggerService
+from DataConfig.ImagesFolder import get_images_file_path
 import asyncio
 
 # === Loglar ===
@@ -37,11 +37,11 @@ def write_log(file, text):
 def fill_and_save_user(user_id, full_name, photo_path):
     try:
         # 🔹 Avval peopleManage sahifasiga kirish
-        driver.get("https://192.128.1.215/doc/index.html#/peopleManage")
+        driver.get("https://192.128.1.213/doc/index.html#/peopleManage")
         time.sleep(1)  # DOM yuklanishi uchun
 
         # 🔹 Keyin yangi forma ochish
-        driver.get("https://192.128.1.215/doc/index.html#/peopleManage/addEditPeople")
+        driver.get("https://192.128.1.213/doc/index.html#/peopleManage/addEditPeople")
         wait.until(EC.presence_of_element_located((By.CLASS_NAME, "el-input__inner")))
 
         inputs = driver.find_elements(By.CLASS_NAME, "el-input__inner")
@@ -89,7 +89,7 @@ def fill_and_save_user(user_id, full_name, photo_path):
             )
             driver.execute_script(trigger_js, file_input)
 
-        time.sleep(3)  # yuz analiz uchun
+        time.sleep(0.5)  # yuz analiz uchun
 
         # 🔹 Save tugmasi (PyAutoGUI)
         pyautogui.scroll(-300)
@@ -99,7 +99,7 @@ def fill_and_save_user(user_id, full_name, photo_path):
         pyautogui.click()
 
         # 🔹 Saqlashdan keyin kutish
-        time.sleep(2)
+        time.sleep(1)
         success_msg = f"{user_id} | {full_name} | ✅ Saqlandi"
         logger.info(success_msg)
         write_log(SUCCESS_LOG, success_msg)
@@ -110,14 +110,14 @@ def fill_and_save_user(user_id, full_name, photo_path):
         write_log(ERROR_LOG, error_msg)
 
 async def main():
-    user_info = await db.get(User)
+    user_info1 = await db.get(User)
 
     # 🔹 1170 dan boshlab filter qilish
-    # user_info = [u for u in user_info1 if u.turniket_id and int(u.turniket_id) >= 20251170]
+    user_info = [u for u in user_info1 if u.turniket_id and int(u.turniket_id) >= 20251470]
 
-    print(f"Topildi: {len(user_info)} ta foydalanuvchi (1170 dan boshlab).")
+    print(f"Topildi: {len(user_info)} ta foydalanuvchi (2272 dan boshlab).")
     print("🌐 Brauzer ishga tushirildi...")
-    driver.get("https://192.128.1.215/doc/index.html#/portal/login")
+    driver.get("https://192.128.1.213/doc/index.html#/portal/login")
 
     # === LOGIN ===
     wait.until(
@@ -137,7 +137,7 @@ async def main():
 
     wait.until(EC.presence_of_element_located((By.ID, "portal")))
     time.sleep(1)
-
+    son = 0
     # 🔹 Har bir talabani kiritish
     for user in user_info:
         try:
@@ -146,13 +146,14 @@ async def main():
             photo_path = await get_images_file_path(f"{user_id}.jpg")
 
             fill_and_save_user(user_id, full_name, photo_path)
+            son += 1
 
         except Exception as ex:
             error_msg = f"{getattr(user, 'turniket_id', 'N/A')} | {getattr(user, 'full_name', 'N/A')} | ❌ Umumiy xato: {ex}"
             logger.error(error_msg)
             write_log(ERROR_LOG, error_msg)
 
-    print("✅ Test rejimdagi 3 ta foydalanuvchi tugadi.")
+    print(f"✅ Test rejimdagi {son} ta foydalanuvchi tugadi.")
 
 if __name__ == "__main__":
     asyncio.run(main())
