@@ -1,7 +1,7 @@
 from selenium.webdriver.support import expected_conditions as EC
 from DataConfig.ImagesFolder import get_images_file_path
 from selenium.webdriver.support.ui import WebDriverWait
-from DatabaseService import DatabaseService1, User
+from DatabaseService import DatabaseService1, User, Filologiya
 from selenium.webdriver.common.by import By
 from LoggingService import LoggerService
 import time, asyncio, pyautogui
@@ -46,10 +46,12 @@ def add_user(person_id, full_name, photo_path):
         pyautogui.write(photo_path)  # to‘liq path kerak!
         pyautogui.press("enter")
 
-        time.sleep(2)  # rasm yuklanishi va yuz analiz
+        time.sleep(1)  # rasm yuklanishi va yuz analiz
 
         # === OK tugmasi (PyAutoGUI) ===
         pyautogui.click(1100, 840, duration=0.3)
+        time.sleep(0.5)  # modal yopilishini kutish
+        pyautogui.click(1230, 845, duration=0.3)
         time.sleep(2)  # modal yopilishini kutish
 
         logger.info(f"✅ User qo‘shildi: {person_id} | {full_name}")
@@ -59,7 +61,7 @@ def add_user(person_id, full_name, photo_path):
 
 
 async def main():
-    user_info1 = await db.get(User)  # test uchun 5 ta
+    user_info1 = await db.get(Filologiya)  # test uchun 5 ta
 
     driver.get(f"{ip}/#/login")
 
