@@ -10,7 +10,7 @@ from selenium import webdriver
 logger = LoggerService().get_logger()
 db = DatabaseService1(logger=LoggerService())
 
-ip = "http://10.32.82.108:9482"
+ip = "http://10.129.53.170:9581"
 
 options = webdriver.ChromeOptions()
 options.add_argument("--ignore-certificate-errors")
@@ -30,17 +30,17 @@ def add_user(person_id, full_name, photo_path):
         #     (By.XPATH, "//span[contains(@class,'ng-binding') and text()='Add']")))
         # add_btn.click()
         pyautogui.click(49, 200, duration=0.3)
-        time.sleep(0.5)  # modal ochilishi uchun
+        time.sleep(0.2)  # modal ochilishi uchun
 
         # === Person ID (PyAutoGUI) ===
         pyautogui.click(800, 405, duration=0.3)
-        time.sleep(0.5)
+        time.sleep(0.2)
         pyperclip.copy(str(person_id))
         pyautogui.hotkey("ctrl", "v")
 
         # === Full Name (PyAutoGUI) ===
         pyautogui.click(800, 445, duration=0.3)
-        time.sleep(0.5)
+        time.sleep(0.2)
         pyperclip.copy(str(full_name))
         pyautogui.hotkey("ctrl", "v")
 
@@ -67,7 +67,7 @@ def add_user(person_id, full_name, photo_path):
 
 
 async def main():
-    user_info = await db.get(TTJ5)  # test uchun 5 ta
+    user_info = await db.get(TTJ10)  # test uchun 5 ta
 
     driver.get(f"{ip}/#/login")
     # user_info = [u for u in user_info1 if u.turniket_id and int(u.turniket_id) >= 20251936]
