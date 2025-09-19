@@ -2,6 +2,7 @@ from tenacity import retry, wait_exponential, stop_after_attempt, retry_if_excep
 from sqlalchemy.exc import DBAPIError, OperationalError, InterfaceError
 from typing import Optional, List, Type, Dict, Any, Callable, Coroutine
 from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine
+from .models import User, Filologiya, TTJ5, TTJ7, TTJ8, TTJ9, TTJ10
 from sqlmodel.ext.asyncio.session import AsyncSession
 from sqlmodel import select, SQLModel, and_
 from asyncpg.exceptions import PostgresError
@@ -9,7 +10,6 @@ from DataConfig.config import DATABASE_URL
 from contextlib import asynccontextmanager
 from LoggingService import LoggerService
 from sqlalchemy.orm import sessionmaker
-from .models import User, Filologiya
 from time import time
 
 

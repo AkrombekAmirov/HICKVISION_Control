@@ -1,12 +1,12 @@
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import StaleElementReferenceException, TimeoutException
-import time, os, pyautogui
-from DatabaseService import DatabaseService1, User
-from LoggingService import LoggerService
+from DatabaseService import DatabaseService1, User, TTJ5, TTJ7, TTJ8, TTJ9, TTJ10
+from selenium.webdriver.support import expected_conditions as EC
 from DataConfig.ImagesFolder import get_images_file_path
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.by import By
+from LoggingService import LoggerService
+import time, os, pyautogui, pyperclip
+from selenium import webdriver
 import asyncio
 
 # === Loglar ===
