@@ -19,9 +19,9 @@ def test_write_fields():
     # pyautogui.press("enter")
 
     # OK
-    pyautogui.click(1110, 845, duration=0.3)  # OK
+    pyautogui.click(49, 192, duration=0.3)  # OK
     time.sleep(2)  # modal yopilishini kutish
-    pyautogui.click(1230, 845, duration=0.3)
+    # pyautogui.click(1230, 845, duration=0.3)
 
 if __name__ == "__main__":
     print("⏳ Test boshlanmoqda...")

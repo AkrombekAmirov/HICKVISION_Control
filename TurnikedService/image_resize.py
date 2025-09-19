@@ -10,7 +10,7 @@ from selenium import webdriver
 logger = LoggerService().get_logger()
 db = DatabaseService1(logger=LoggerService())
 
-ip = "http://10.32.104.163:9284"
+ip = "http://10.32.82.108:9482"
 
 options = webdriver.ChromeOptions()
 options.add_argument("--ignore-certificate-errors")
@@ -25,11 +25,12 @@ wait = WebDriverWait(driver, 15)
 def add_user(person_id, full_name, photo_path):
     try:
         # + Add tugmasini bosish (Selenium orqali)
-        time.sleep(0.8)
-        add_btn = wait.until(EC.element_to_be_clickable(
-            (By.XPATH, "//span[contains(@class,'ng-binding') and text()='Add']")))
-        add_btn.click()
-        time.sleep(1)  # modal ochilishi uchun
+        time.sleep(0.3)
+        # add_btn = wait.until(EC.element_to_be_clickable(
+        #     (By.XPATH, "//span[contains(@class,'ng-binding') and text()='Add']")))
+        # add_btn.click()
+        pyautogui.click(49, 200, duration=0.3)
+        time.sleep(0.5)  # modal ochilishi uchun
 
         # === Person ID (PyAutoGUI) ===
         pyautogui.click(800, 405, duration=0.3)
@@ -45,7 +46,7 @@ def add_user(person_id, full_name, photo_path):
 
         # === Photo upload (PyAutoGUI) ===
         pyautogui.click(1170, 440, duration=0.3)
-        time.sleep(1)
+        time.sleep(.04)
         pyperclip.copy(str(photo_path))  # to‘liq path kerak!
         time.sleep(0.7)
         pyautogui.hotkey("ctrl", "v")
@@ -57,7 +58,7 @@ def add_user(person_id, full_name, photo_path):
         pyautogui.click(1111, 847, duration=0.3)
         time.sleep(0.5)  # modal yopilishini kutish
         pyautogui.click(1235, 845, duration=0.3)
-        time.sleep(2)  # modal yopilishini kutish
+        time.sleep(1)  # modal yopilishini kutish
 
         logger.info(f"✅ User qo‘shildi: {person_id} | {full_name}")
 
@@ -66,23 +67,24 @@ def add_user(person_id, full_name, photo_path):
 
 
 async def main():
-    user_info1 = await db.get(Filologiya)  # test uchun 5 ta
+    user_info = await db.get(TTJ5)  # test uchun 5 ta
 
     driver.get(f"{ip}/#/login")
-    user_info = [u for u in user_info1 if u.turniket_id and int(u.turniket_id) >= 20251936]
+    # user_info = [u for u in user_info1 if u.turniket_id and int(u.turniket_id) >= 20251936]
     # === LOGIN ===
     wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "input[placeholder='User Name']"))).send_keys("admin")
-    driver.find_element(By.CSS_SELECTOR, "input[placeholder='Password']").send_keys("abcd2024")
+    driver.find_element(By.CSS_SELECTOR, "input[placeholder='Password']").send_keys("qwerty123456")
     driver.find_element(By.CSS_SELECTOR, "button.login-btn").click()
     time.sleep(1)
 
     # === Users sahifasiga kirish ===
     wait.until(EC.url_contains("#/home"))
-    time.sleep(1)
+    time.sleep(2)
     driver.get(f"{ip}/#/home/peopleManage")
-    time.sleep(1)
-    wait.until(EC.presence_of_element_located((By.XPATH, "//span[text()='Add']")))
-
+    time.sleep(2)
+    # wait.until(EC.presence_of_element_located((By.XPATH, "//span[contains(@class,'ng-binding') and text()='Add']")))
+    pyautogui.click(49, 200, duration=0.3)
+    time.sleep(2)
     # === Sikl orqali userlarni qo‘shish ===
     for user in user_info:
         photo_path = await get_images_file_path(f"{user.turniket_id}.jpg")
